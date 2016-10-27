@@ -12,7 +12,7 @@ import Prelude.Compat
 
 import Control.Exception
 import Control.Monad
-import Control.Monad.Catch (MonadThrow)
+import Control.Monad.Catch (MonadThrow, MonadCatch)
 import Data.Foldable (toList)
 
 #if MIN_VERSION_mtl(2,2,0)
@@ -177,6 +177,7 @@ newtype ClientM a = ClientM { runClientM' :: ReaderT ClientEnv (ExceptT ServantE
                     deriving ( Functor, Applicative, Monad, MonadIO, Generic
                              , MonadReader ClientEnv
                              , MonadError ServantError
+                             , MonadThrow, MonadCatch
                              )
 
 runClientM :: ClientM a -> ClientEnv -> IO (Either ServantError a)
